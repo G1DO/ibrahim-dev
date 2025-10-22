@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects - Ibrahim Mohamed</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Favicon setup -->
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="manifest" href="site.webmanifest">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    :root {
+      --primary: #0a0a0a;
+      --secondary: #f5f5f5;
+      --accent: #2563eb;
+      --gray: #737373;
+      --light-gray: #e5e5e5;
+    }
+
+    body {
+      background-color: var(--secondary);
+      color: var(--primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      overflow-y: scroll; /* always keep space for scrollbar */
+
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem 5%;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 100;
+      background: rgba(245, 245, 245, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    nav li {
+      min-width: 100px;
+      text-align: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      padding: 0.5rem 0;
+      transition: color 0.3s ease;
+    }
+
+    nav a:after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover:after { width: 100%; }
+    nav a.active { font-weight: bold; border-bottom: 2px solid var(--primary); }
+
+    /* unified hero spacing */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 5% 3rem;
+      flex: 1;
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    html { scroll-behavior: smooth;
+    scrollbar-gutter: stable; }
+
+    .projects-grid {
+      
+     display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+    }
+
+    .project-card {
+      padding: 2rem;
+      background: #fff;
+      border: 1px solid var(--light-gray);
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .project-card h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-card p {
+      color: var(--gray);
+      margin-bottom: 1rem;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .tech-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: var(--light-gray);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 500;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+    }
+
+    .tech-chip i { font-size: 0.9rem; }
+
+    .project-links a {
+      color: var(--accent);
+      text-decoration: none;
+      margin-right: 1.5rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+
+    .project-links a:hover { border-color: var(--accent); }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body { background-color: #0a0a0a; color: #f5f5f5; }
+      nav a { color: #f5f5f5; }
+      nav a:after { background: #f5f5f5; }
+      header { background: rgba(10, 10, 10, 0.95); border-bottom: 1px solid #333; }
+      .project-card { background: #111; border: 1px solid #333; }
+      .tech-chip { background: #222; color: #f5f5f5; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">DEV.</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html" class="active">Projects</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="about.html">About Me</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="hero">
+    <section class="hero-content fade-in">
+      <div class="projects-grid">
+
+        <!-- QuestBoard -->
+        <div class="project-card">
+          <h2>QuestBoard</h2>
+          <p>A gamified micro-challenges platform where users complete tasks to climb a leaderboard. Built with Flask, PostgreSQL, and AWS Elastic Beanstalk.</p>
+          <div class="tech-stack">
+            <span class="tech-chip"><i class="fab fa-python"></i> Flask</span>
+            <span class="tech-chip"><i class="fas fa-database"></i> PostgreSQL</span>
+            <span class="tech-chip"><i class="fab fa-docker"></i> Docker</span>
+            <span class="tech-chip"><i class="fab fa-aws"></i> AWS</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/G1DO/questboard" target="_blank">GitHub</a>
+            <a href="https://d277uiwpvrg0wk.cloudfront.net/" target="_blank">Live Demo</a>
+          </div>
+        </div>
+
+        <!-- FOS -->
+        <div class="project-card">
+          <h2>FOS (Faculty Operating System)</h2>
+          <p>Comprehensive OS labs implementation including memory management, scheduling, and paging using C and QEMU virtual machine.</p>
+          <div class="tech-stack">
+            <span class="tech-chip"><i class="fas fa-code"></i> C</span>
+            <span class="tech-chip"><i class="fas fa-microchip"></i> QEMU</span>
+            <span class="tech-chip"><i class="fas fa-terminal"></i> Linux</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/G1DO/fos" target="_blank">GitHub</a>
+          </div>
+        </div>
+
+        <!-- Speaker Identification -->
+        <div class="project-card">
+          <h2>Speaker Identification</h2>
+          <p>Deep learning project for identifying speakers from audio using Mel-spectrograms and CNN models. Implemented with TensorFlow and Librosa.</p>
+          <div class="tech-stack">
+            <span class="tech-chip"><i class="fab fa-windows"></i> C#</span>
+            <span class="tech-chip"><i class="fas fa-brain"></i> MFCC</span>
+            <span class="tech-chip"><i class="fas fa-wave-square"></i> DTW</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/G1DO/Speaker-Identification" target="_blank">GitHub</a>
+          </div>
+        </div>
+
+        <!-- Data Communication -->
+        <div class="project-card">
+          <h2>Data Communication Project</h2>
+          <p>Socket programming project demonstrating reliable client-server communication, CRC error detection, and data transmission simulation.</p>
+          <div class="tech-stack">
+            <span class="tech-chip"><i class="fab fa-windows"></i> C#</span>
+            <span class="tech-chip"><i class="fas fa-network-wired"></i> Networking</span>
+            <span class="tech-chip"><i class="fas fa-server"></i> HTTP</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/G1DO/Data-Communication-Project" target="_blank">GitHub</a>
+          </div>
+        </div>
+
+        <!-- Asteroids -->
+        <div class="project-card">
+          <h2>Asteroids Game</h2>
+          <p>A classic arcade-style Asteroids game built with Pygame featuring shooting, collision detection, and object splitting.</p>
+          <div class="tech-stack">
+            <span class="tech-chip"><i class="fab fa-python"></i> Python</span>
+            <span class="tech-chip"><i class="fas fa-gamepad"></i> Pygame</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/G1DO/Asteroids" target="_blank">GitHub</a>
+            <a href="https://www.youtube.com/watch?v=YFVrMwVJ5cQ" target="_blank">Watch Demo</a>
+          </div>
+        </div>
+
+        <!-- XO -->
+        <div class="project-card">
+          <h2>XO Game</h2>
+          <p>A simple and responsive Tic-Tac-Toe (XO) game built using HTML, CSS, and JavaScript, featuring a clean UI and player vs. player logic.</p>
+          <div class="tech-stack">
+            <span class="tech-chip"><i class="fab fa-html5"></i> HTML</span>
+            <span class="tech-chip"><i class="fab fa-css3-alt"></i> CSS</span>
+            <span class="tech-chip"><i class="fab fa-js"></i> JavaScript</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/G1DO/xo-game" target="_blank">GitHub</a>
+            <a href="https://g1do.github.io/xo-game/" target="_blank">Live Demo</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+</body>
+</html>
