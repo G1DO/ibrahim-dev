@@ -1,4 +1,4 @@
-# Ìºê Ibrahim Mohamed ‚Äì Portfolio Website
+# Ibrahim Mohamed ‚Äì Portfolio Website
 
 This is my personal developer portfolio, showcasing my projects, skills, and contact information.
 Built using HTML5, CSS3, and Font Awesome.
