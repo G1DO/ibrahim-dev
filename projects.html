@@ -11,7 +11,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   <link rel="manifest" href="site.webmanifest">
-
+  
   <style>
     * {
       margin: 0;
@@ -28,7 +28,7 @@
       --light-gray: #e5e5e5;
     }
 
-    html { scroll-behavior: smooth; scrollbar-gutter: stable; }
+    html { scroll-behavior: smooth; }
 
     body {
       background-color: var(--secondary);
@@ -109,7 +109,7 @@
       z-index: 210;
     }
 
-    /* Hero section */
+    /* Hero */
     .hero {
       display: flex;
       flex-direction: column;
@@ -124,7 +124,7 @@
       width: 100%;
     }
 
-    /* Project grid */
+    /* Projects Grid */
     .projects-grid {
       display: flex;
       flex-direction: column;
@@ -231,7 +231,6 @@
         gap: 1rem;
       }
 
-      header { padding: 1.5rem 4%; }
       .hero { padding: 7rem 4% 2rem; }
       .project-card { padding: 1.5rem; }
       .project-card h2 { font-size: 1.3rem; }
@@ -246,15 +245,28 @@
       .tech-chip { font-size: 0.75rem; }
     }
 
-    /* Dark mode */
+    /* Dark Mode */
     @media (prefers-color-scheme: dark) {
       body { background-color: #0a0a0a; color: #f5f5f5; }
       nav a { color: #f5f5f5; }
       nav a:after { background: #f5f5f5; }
       header { background: rgba(10, 10, 10, 0.95); border-bottom: 1px solid #333; }
-      nav { background: rgba(10, 10, 10, 0.97); border-top: 1px solid #333; }
       .project-card { background: #111; border: 1px solid #333; }
       .tech-chip { background: #222; color: #f5f5f5; }
+
+      /* keep dropdown white even in dark mode */
+      nav {
+        background: rgba(255, 255, 255, 0.97);
+        border-top: 1px solid #ccc;
+      }
+
+      nav a {
+        color: #0a0a0a;
+      }
+
+      nav a:after {
+        background: #0a0a0a;
+      }
     }
   </style>
 </head>
@@ -310,9 +322,9 @@
           <h2>Speaker Identification</h2>
           <p>Deep learning project for identifying speakers from audio using Mel-spectrograms and CNN models. Implemented with TensorFlow and Librosa.</p>
           <div class="tech-stack">
-            <span class="tech-chip"><i class="fab fa-windows"></i> C#</span>
-            <span class="tech-chip"><i class="fas fa-brain"></i> MFCC</span>
-            <span class="tech-chip"><i class="fas fa-wave-square"></i> DTW</span>
+            <span class="tech-chip"><i class="fab fa-python"></i> Python</span>
+            <span class="tech-chip"><i class="fas fa-brain"></i> CNN</span>
+            <span class="tech-chip"><i class="fas fa-wave-square"></i> Librosa</span>
           </div>
           <div class="project-links">
             <a href="https://github.com/G1DO/Speaker-Identification" target="_blank">GitHub</a>
