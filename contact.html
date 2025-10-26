@@ -195,13 +195,14 @@
         top: 100%;
         left: 0;
         width: 100%;
-        background: rgba(245, 245, 245, 0.97);
+        background: rgba(10, 10, 10, 0.97); /* ✅ black background */
         backdrop-filter: blur(10px);
-        border-top: 1px solid var(--light-gray);
+        border-top: 1px solid #333;
         transform: translateY(-100%);
         opacity: 0;
         transition: all 0.4s ease;
         pointer-events: none;
+        z-index: 250; /* prevents overlap */
       }
 
       nav.active {
@@ -217,6 +218,11 @@
         gap: 1rem;
       }
 
+      nav a {
+        color: #fff; /* ✅ white text */
+        font-size: 1.1rem;
+      }
+
       .hero { padding: 7rem 4% 2rem; }
       .contact-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
     }
@@ -229,7 +235,7 @@
       .contact-card span { font-size: 0.9rem; }
     }
 
-    /* === Dark Mode (clean version) === */
+    /* === Dark Mode === */
     @media (prefers-color-scheme: dark) {
       body {
         background-color: #0a0a0a;
@@ -252,10 +258,9 @@
         border-bottom: 1px solid #333;
       }
 
-      /* ✅ mobile dropdown menu (black background, white text) */
       nav {
-                border-top: none !important;
-
+        background: rgba(10, 10, 10, 0.97);
+        border-top: 1px solid #333;
       }
 
       nav a {
@@ -266,13 +271,11 @@
         background: #ffffff;
       }
 
-      /* ✅ hamburger icon white */
       .menu-toggle,
       .menu-toggle i {
         color: #ffffff !important;
       }
 
-      /* contact cards */
       .contact-card {
         background: #1a1a1a;
         border: 1px solid #333;
@@ -284,6 +287,13 @@
 
       .contact-card i {
         color: var(--accent);
+      }
+    }
+
+    /* ✅ Remove unwanted white line in desktop view */
+    @media (min-width: 769px) {
+      nav {
+        border-top: none !important;
       }
     }
   </style>
