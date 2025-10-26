@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Projects</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
   <!-- Favicon setup -->
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
   
   <style>
     * {
@@ -27,16 +28,21 @@
       --light-gray: #e5e5e5;
     }
 
+    html {
+      scroll-behavior: smooth;
+      scrollbar-gutter: stable;
+    }
+
     body {
       background-color: var(--secondary);
       color: var(--primary);
       line-height: 1.6;
       overflow-x: hidden;
-      overflow-y: scroll; /* always keep space for scrollbar */
-
+      overflow-y: scroll;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      font-size: clamp(14px, 1.2vw, 16px);
     }
 
     header {
@@ -55,7 +61,7 @@
 
     .logo {
       font-weight: 700;
-      font-size: 1.5rem;
+      font-size: clamp(1.2rem, 2vw, 1.5rem);
       letter-spacing: -0.5px;
     }
 
@@ -96,7 +102,7 @@
     nav a:hover:after { width: 100%; }
     nav a.active { font-weight: bold; border-bottom: 2px solid var(--primary); }
 
-    /* unified hero spacing */
+    /* Hero section */
     .hero {
       display: flex;
       flex-direction: column;
@@ -111,15 +117,12 @@
       width: 100%;
     }
 
-    html { scroll-behavior: smooth;
-    scrollbar-gutter: stable; }
-
+    /* Project grid */
     .projects-grid {
-      
-     display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-top: 2rem;
     }
 
     .project-card {
@@ -179,6 +182,7 @@
 
     .project-links a:hover { border-color: var(--accent); }
 
+    /* Fade-in animation */
     .fade-in {
       opacity: 0;
       transform: translateY(20px);
@@ -189,6 +193,75 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* === Responsive Design === */
+
+    /* Tablets */
+    @media (max-width: 768px) {
+      header {
+        padding: 1.5rem 4%;
+      }
+
+      nav ul {
+        gap: 1rem;
+      }
+
+      .hero {
+        padding: 7rem 4% 2rem;
+      }
+
+      .project-card {
+        padding: 1.5rem;
+      }
+
+      .project-card h2 {
+        font-size: 1.3rem;
+      }
+
+      .project-card p {
+        font-size: 0.95rem;
+      }
+    }
+
+    /* Phones */
+    @media (max-width: 480px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+
+      nav a {
+        font-size: 0.85rem;
+      }
+
+      .hero {
+        padding: 6rem 5% 2rem;
+      }
+
+      .project-card {
+        padding: 1.25rem;
+      }
+
+      .project-card h2 {
+        font-size: 1.2rem;
+      }
+
+      .project-card p {
+        font-size: 0.9rem;
+      }
+
+      .tech-chip {
+        font-size: 0.75rem;
+      }
+    }
+
+    /* Dark mode */
     @media (prefers-color-scheme: dark) {
       body { background-color: #0a0a0a; color: #f5f5f5; }
       nav a { color: #f5f5f5; }
@@ -216,7 +289,6 @@
     <section class="hero-content fade-in">
       <div class="projects-grid">
 
-        <!-- QuestBoard -->
         <div class="project-card">
           <h2>QuestBoard</h2>
           <p>A gamified micro-challenges platform where users complete tasks to climb a leaderboard. Built with Flask, PostgreSQL, and AWS Elastic Beanstalk.</p>
@@ -232,7 +304,6 @@
           </div>
         </div>
 
-        <!-- FOS -->
         <div class="project-card">
           <h2>FOS (Faculty Operating System)</h2>
           <p>Comprehensive OS labs implementation including memory management, scheduling, and paging using C and QEMU virtual machine.</p>
@@ -246,7 +317,6 @@
           </div>
         </div>
 
-        <!-- Speaker Identification -->
         <div class="project-card">
           <h2>Speaker Identification</h2>
           <p>Deep learning project for identifying speakers from audio using Mel-spectrograms and CNN models. Implemented with TensorFlow and Librosa.</p>
@@ -260,7 +330,6 @@
           </div>
         </div>
 
-        <!-- Data Communication -->
         <div class="project-card">
           <h2>Data Communication Project</h2>
           <p>Socket programming project demonstrating reliable client-server communication, CRC error detection, and data transmission simulation.</p>
@@ -274,7 +343,6 @@
           </div>
         </div>
 
-        <!-- Asteroids -->
         <div class="project-card">
           <h2>Asteroids Game</h2>
           <p>A classic arcade-style Asteroids game built with Pygame featuring shooting, collision detection, and object splitting.</p>
@@ -288,7 +356,6 @@
           </div>
         </div>
 
-        <!-- XO -->
         <div class="project-card">
           <h2>XO Game</h2>
           <p>A simple and responsive Tic-Tac-Toe (XO) game built using HTML, CSS, and JavaScript, featuring a clean UI and player vs. player logic.</p>

@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
   <!-- Favicon setup -->
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
   
   <style>
     * {
@@ -33,10 +34,10 @@
       line-height: 1.6;
       overflow-x: hidden;
       min-height: 100vh;
-      overflow-y: scroll; /* always keep space for scrollbar */
-
+      overflow-y: scroll;
       display: flex;
       flex-direction: column;
+      font-size: clamp(14px, 1.2vw, 16px);
     }
 
     header {
@@ -55,7 +56,7 @@
 
     .logo {
       font-weight: 700;
-      font-size: 1.5rem;
+      font-size: clamp(1.2rem, 2vw, 1.5rem);
       letter-spacing: -0.5px;
     }
 
@@ -144,7 +145,7 @@
     }
 
     .contact-card:hover {
-   transform: translateY(-6px);
+      transform: translateY(-6px);
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
     }
 
@@ -167,6 +168,80 @@
 
     @keyframes fadeInUp {
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === Responsive Design === */
+
+    /* Tablets */
+    @media (max-width: 768px) {
+      header {
+        padding: 1.5rem 4%;
+      }
+
+      nav ul {
+        gap: 1rem;
+      }
+
+      .hero {
+        padding: 7rem 4% 2rem;
+      }
+
+      .contact-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .contact-card {
+        padding: 1.5rem;
+      }
+
+      .logo {
+        font-size: 1.3rem;
+      }
+    }
+
+    /* Phones */
+    @media (max-width: 480px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+      }
+
+      nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+
+      nav a {
+        font-size: 0.85rem;
+      }
+
+      .hero {
+        padding: 6rem 5% 2rem;
+      }
+
+      .intro p {
+        font-size: 1rem;
+      }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .contact-card {
+        padding: 1.25rem;
+      }
+
+      .contact-card i {
+        font-size: 1.5rem;
+      }
+
+      .contact-card span {
+        font-size: 0.9rem;
+      }
     }
 
     @media (prefers-color-scheme: dark) {
