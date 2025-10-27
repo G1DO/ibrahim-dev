@@ -35,7 +35,6 @@
       color: var(--primary);
       line-height: 1.6;
       overflow-x: hidden;
-      overflow-y: scroll;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -209,9 +208,9 @@
         top: 100%;
         left: 0;
         width: 100%;
-        background: rgba(10, 10, 10, 0.97); /* ✅ black dropdown background */
+        background: rgba(245, 245, 245, 0.97); /* ✅ light mode dropdown same as theme */
         backdrop-filter: blur(10px);
-        border-top: 1px solid #333;
+        border-top: 1px solid var(--light-gray);
         transform: translateY(-100%);
         opacity: 0;
         transition: all 0.4s ease;
@@ -233,7 +232,7 @@
       }
 
       nav a {
-        color: #fff; /* ✅ white text */
+        color: var(--primary);
         font-size: 1.1rem;
       }
 
@@ -258,33 +257,20 @@
         color: #f5f5f5;
       }
 
-      nav a {
-        color: #f5f5f5;
-      }
-
-      nav a:after {
-        background: #f5f5f5;
-      }
-
       header {
         background: rgba(10, 10, 10, 0.95);
         border-bottom: 1px solid #333;
       }
 
       nav {
-        background: rgba(10, 10, 10, 0.97);
-        border-top: 1px solid #333;
+        background: #0a0a0a !important; /* ✅ black dropdown in dark mode */
+        border-top: none !important;
       }
 
       nav a {
-        color: #ffffff;
+        color: #ffffff !important;
       }
 
-      nav a:after {
-        background: #ffffff;
-      }
-
-      .menu-toggle,
       .menu-toggle i {
         color: #ffffff !important;
       }

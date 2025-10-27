@@ -195,14 +195,14 @@
         top: 100%;
         left: 0;
         width: 100%;
-        background: rgba(10, 10, 10, 0.97); /* ✅ black background */
+        background: rgba(245, 245, 245, 0.97); /* ✅ light mode dropdown same as header */
         backdrop-filter: blur(10px);
-        border-top: 1px solid #333;
+        border-top: 1px solid var(--light-gray);
         transform: translateY(-100%);
         opacity: 0;
         transition: all 0.4s ease;
         pointer-events: none;
-        z-index: 250; /* prevents overlap */
+        z-index: 250;
       }
 
       nav.active {
@@ -219,7 +219,7 @@
       }
 
       nav a {
-        color: #fff; /* ✅ white text */
+        color: var(--primary);
         font-size: 1.1rem;
       }
 
@@ -242,38 +242,26 @@
         color: #f5f5f5;
       }
 
-      nav a,
-      .intro p,
-      .intro h1,
-      .intro h2 {
-        color: #f5f5f5;
-      }
-
-      nav a:after {
-        background: #f5f5f5;
-      }
-
       header {
         background: rgba(10, 10, 10, 0.95);
         border-bottom: 1px solid #333;
       }
 
       nav {
-        background: rgba(10, 10, 10, 0.97);
-        border-top: 1px solid #333;
+        background: #0a0a0a !important; /* ✅ black dropdown in dark mode */
+        border-top: none !important;
       }
 
       nav a {
-        color: #ffffff;
+        color: #ffffff !important;
       }
 
-      nav a:after {
-        background: #ffffff;
-      }
-
-      .menu-toggle,
       .menu-toggle i {
         color: #ffffff !important;
+      }
+
+      .intro p {
+        color: #f5f5f5;
       }
 
       .contact-card {
