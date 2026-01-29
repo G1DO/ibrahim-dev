@@ -318,17 +318,89 @@
       <div class="projects-grid">
 
         <div class="project-card">
-          <h2>QuestBoard</h2>
-          <p>A gamified micro-challenges platform where users complete tasks to climb a leaderboard. Built with Flask, PostgreSQL, and AWS Elastic Beanstalk.</p>
+          <h2>Raft KV</h2>
+          <p>A distributed key-value store built on the Raft consensus algorithm from scratch in Go. Multiple servers agree on data even when nodes crash — featuring leader election, log replication, snapshots, linearizable reads, and dynamic cluster membership.</p>
           <div class="tech-stack">
-            <span class="tech-chip"><i class="fab fa-python"></i> Flask</span>
-            <span class="tech-chip"><i class="fas fa-database"></i> PostgreSQL</span>
-            <span class="tech-chip"><i class="fab fa-docker"></i> Docker</span>
-            <span class="tech-chip"><i class="fab fa-aws"></i> AWS</span>
+            <span class="tech-chip"><i class="fab fa-golang"></i> Go</span>
+            <span class="tech-chip"><i class="fas fa-network-wired"></i> Distributed Systems</span>
+            <span class="tech-chip"><i class="fas fa-database"></i> Consensus</span>
+            <span class="tech-chip"><i class="fas fa-server"></i> Raft</span>
           </div>
           <div class="project-links">
-            <a href="https://github.com/G1DO/questboard" target="_blank">GitHub</a>
-            <a href="https://d277uiwpvrg0wk.cloudfront.net/" target="_blank">Live Demo</a>
+            <a href="https://github.com/G1DO/raft-kv" target="_blank">GitHub</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <h2>Flume</h2>
+          <p>A message streaming system built from scratch in Go — every component from the binary wire protocol to the log-structured storage engine is hand-implemented. Built to deeply understand how systems like Kafka work under the hood.</p>
+          <div class="tech-stack">
+            <span class="tech-chip"><i class="fab fa-golang"></i> Go</span>
+            <span class="tech-chip"><i class="fas fa-network-wired"></i> TCP</span>
+            <span class="tech-chip"><i class="fas fa-database"></i> Storage Engine</span>
+            <span class="tech-chip"><i class="fas fa-stream"></i> Streaming</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/G1DO/flume" target="_blank">GitHub</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <h2>365Scores Clone</h2>
+          <p>A real-time football match score system. Kafka produces and consumes match events, Redis caches live data, FastAPI serves the REST API, and React renders scores — all orchestrated with Docker Compose.</p>
+          <div class="tech-stack">
+            <span class="tech-chip"><i class="fab fa-python"></i> FastAPI</span>
+            <span class="tech-chip"><i class="fas fa-stream"></i> Kafka</span>
+            <span class="tech-chip"><i class="fas fa-bolt"></i> Redis</span>
+            <span class="tech-chip"><i class="fab fa-react"></i> React</span>
+            <span class="tech-chip"><i class="fab fa-docker"></i> Docker</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/G1DO/365scores" target="_blank">GitHub</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <h2>Quizify</h2>
+          <p>An AI-powered exam question generator that transforms lecture notes into interactive quizzes. Serverless architecture on AWS with Gemini AI, Lambda, DynamoDB, S3, and CloudFront — fully deployed with Terraform.</p>
+          <div class="tech-stack">
+            <span class="tech-chip"><i class="fab fa-python"></i> Python</span>
+            <span class="tech-chip"><i class="fab fa-aws"></i> AWS Lambda</span>
+            <span class="tech-chip"><i class="fas fa-brain"></i> Gemini AI</span>
+            <span class="tech-chip"><i class="fas fa-cubes"></i> Terraform</span>
+            <span class="tech-chip"><i class="fas fa-database"></i> DynamoDB</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/G1DO/Quizify" target="_blank">GitHub</a>
+            <a href="https://d32x2zr6w847id.cloudfront.net/" target="_blank">Live Demo</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <h2>Multiplayer Game</h2>
+          <p>A real-time multiplayer game with a Go WebSocket server and TypeScript browser client using Canvas. Players see each other move instantly with state synchronization at 60 updates per second.</p>
+          <div class="tech-stack">
+            <span class="tech-chip"><i class="fab fa-golang"></i> Go</span>
+            <span class="tech-chip"><i class="fab fa-js"></i> TypeScript</span>
+            <span class="tech-chip"><i class="fas fa-plug"></i> WebSocket</span>
+            <span class="tech-chip"><i class="fas fa-gamepad"></i> Canvas</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/G1DO/multiplayer-game" target="_blank">GitHub</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <h2>Rust Mini Backend System</h2>
+          <p>A low-level client, server, and file-backed key-value database built from scratch in Rust — no frameworks, no async runtimes, no ORMs. Built to understand how HTTP works over TCP and how databases store data.</p>
+          <div class="tech-stack">
+            <span class="tech-chip"><i class="fab fa-rust"></i> Rust</span>
+            <span class="tech-chip"><i class="fas fa-network-wired"></i> TCP</span>
+            <span class="tech-chip"><i class="fas fa-database"></i> Key-Value DB</span>
+            <span class="tech-chip"><i class="fas fa-server"></i> HTTP Server</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/G1DO/mini-system" target="_blank">GitHub</a>
           </div>
         </div>
 
@@ -342,6 +414,21 @@
           </div>
           <div class="project-links">
             <a href="https://github.com/G1DO/fos" target="_blank">GitHub</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <h2>QuestBoard</h2>
+          <p>A gamified micro-challenges platform where users complete tasks to climb a leaderboard. Built with Flask, PostgreSQL, and AWS Elastic Beanstalk.</p>
+          <div class="tech-stack">
+            <span class="tech-chip"><i class="fab fa-python"></i> Flask</span>
+            <span class="tech-chip"><i class="fas fa-database"></i> PostgreSQL</span>
+            <span class="tech-chip"><i class="fab fa-docker"></i> Docker</span>
+            <span class="tech-chip"><i class="fab fa-aws"></i> AWS</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/G1DO/questboard" target="_blank">GitHub</a>
+            <a href="https://d277uiwpvrg0wk.cloudfront.net/" target="_blank">Live Demo</a>
           </div>
         </div>
 
