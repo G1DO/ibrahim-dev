@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What a binary wire protocol taught me about API design — Ibrahim Mohamed</title>
+  <meta name="description" content="Framing, versioning, and backwards compatibility — lessons from building Flume's protocol.">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column;">
+  <header class="site-nav" id="siteNav">
+    <div class="bar">
+      <a class="logo" href="index.html">ibrahim@dev:~$<span class="cursor"></span></a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="experience.html">Experience</a>
+        <a href="blog.html" class="active" aria-current="page">Blog</a>
+        <a href="contact.html">Contact</a>
+        <a class="btn-resume" href="Ibrahim.pdf" target="_blank">Resume</a>
+      </nav>
+      <button class="burger" aria-label="Toggle menu" aria-expanded="false" onclick="var n=document.getElementById('siteNav');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'));this.textContent=n.classList.contains('open')?'\u2715':'\u2630';">☰</button>
+    </div>
+    <nav class="mobile-menu" aria-label="Mobile">
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="experience.html">Experience</a>
+      <a href="blog.html" class="active">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn-resume" href="Ibrahim.pdf" target="_blank">Resume ↓</a>
+    </nav>
+  </header>
+  <main class="container post split article">
+    <article style="max-width: 720px;">
+      <a href="blog.html" style="font: 500 14px var(--mono); color: var(--faint);">← ~/blog</a>
+      <header style="margin: 28px 0 40px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; margin-bottom: 18px; font: 500 13px var(--mono);">
+          <span style="color: var(--green);">Systems</span>
+          <span style="color: var(--faint);">May 2, 2026 · 8 min read</span>
+        </div>
+        <h1 style="margin: 0 0 20px; font: 600 clamp(30px, 6vw, 48px)/1.12 var(--sans); letter-spacing: -0.025em;">What a binary wire protocol taught me about API design</h1>
+        <p style="margin: 0; font: 400 20px/1.65 var(--sans); color: var(--muted);">When every byte is yours to define, you start seeing REST APIs differently.</p>
+      </header>
+      <div class="prose">
+        <h2 id="framing">Framing: the problem HTTP hides from you</h2>
+        <p>TCP gives you a stream of bytes, not messages. The first thing every protocol needs is framing — a way to know where one message ends and the next begins. For <a href="https://github.com/G1DO/flume" target="_blank" rel="noopener">Flume</a> I used length-prefixed frames:</p>
+        <pre><code>+----------+----------+------------------+
+| length   | type     | payload          |
+| uint32   | uint8    | length - 1 bytes |
++----------+----------+------------------+</code></pre>
+        <p>Four bytes of length, one byte of message type, then the payload. That's it. HTTP does the same job with headers and chunked encoding — you just never have to think about it until you build the layer underneath.</p>
+        <h2 id="versioning">Versioning is day-one work</h2>
+        <p>The moment a client and server can be deployed separately, you have a compatibility problem. Kafka's protocol carries an API version in every request header — I copied that, and it saved me the first time I changed the produce message layout. The REST equivalent — versioned routes, additive-only schema changes — is the same discipline wearing different clothes.</p>
+        <h2 id="lessons">What carries over to everyday APIs</h2>
+        <p>Three habits survived the trip back up the stack: never break the frame (make responses self-describing), version from the first release, and treat every field you add as a promise you'll keep forever. JSON lets you be sloppy about all three — binary protocols don't, and the constraint is a good teacher.</p>
+      </div>
+      <div class="chips" style="margin: 40px 0 0; padding-top: 28px; border-top: 1px solid var(--line);">
+        <span class="chip">networking</span>
+        <span class="chip">tcp</span>
+        <span class="chip">protocols</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 40px;">
+        <a class="card" href="post-raft-explained.html" style="border-radius: 14px; padding: 20px 24px; gap: 6px;">
+          <span style="font: 500 12px var(--mono); color: var(--faint);">← previous</span>
+          <span style="font: 600 16px var(--sans); color: var(--ink);">Raft, explained by building it</span>
+        </a>
+        <a class="card" href="post-the-log.html" style="border-radius: 14px; padding: 20px 24px; gap: 6px; text-align: right;">
+          <span style="font: 500 12px var(--mono); color: var(--faint);">next →</span>
+          <span style="font: 600 16px var(--sans); color: var(--ink);">The log at the heart of every system</span>
+        </a>
+      </div>
+    </article>
+    <aside class="toc">
+      <span class="toc-title">on this page</span>
+      <a href="#framing">Framing</a>
+      <a href="#versioning">Versioning</a>
+      <a href="#lessons">What carries over</a>
+      <div class="related">
+        <span class="toc-title" style="margin-bottom: 0;">related</span>
+        <a href="https://github.com/G1DO/flume" target="_blank" rel="noopener">Flume on GitHub ↗</a>
+        <a href="post-raft-explained.html">Raft, explained by building it →</a>
+      </div>
+    </aside>
+  </main>
+  <footer class="site-footer">
+    <span>© 2026 Ibrahim Mohamed</span>
+    <span>$ echo "built from scratch, naturally"</span>
+  </footer>
+</body>
+</html>

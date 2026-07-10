@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raft, explained by building it — Ibrahim Mohamed</title>
+  <meta name="description" content="Notes from implementing Raft consensus in Go, section by section.">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column;">
+  <header class="site-nav" id="siteNav">
+    <div class="bar">
+      <a class="logo" href="index.html">ibrahim@dev:~$<span class="cursor"></span></a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="experience.html">Experience</a>
+        <a href="blog.html" class="active" aria-current="page">Blog</a>
+        <a href="contact.html">Contact</a>
+        <a class="btn-resume" href="Ibrahim.pdf" target="_blank">Resume</a>
+      </nav>
+      <button class="burger" aria-label="Toggle menu" aria-expanded="false" onclick="var n=document.getElementById('siteNav');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'));this.textContent=n.classList.contains('open')?'\u2715':'\u2630';">☰</button>
+    </div>
+    <nav class="mobile-menu" aria-label="Mobile">
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="experience.html">Experience</a>
+      <a href="blog.html" class="active">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn-resume" href="Ibrahim.pdf" target="_blank">Resume ↓</a>
+    </nav>
+  </header>
+  <main class="container post split article">
+    <article style="max-width: 720px;">
+      <a href="blog.html" style="font: 500 14px var(--mono); color: var(--faint);">← ~/blog</a>
+      <header style="margin: 28px 0 40px;">
+        <div style="display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; margin-bottom: 18px; font: 500 13px var(--mono);">
+          <span style="color: var(--green);">Paper Notes</span>
+          <span style="color: var(--faint);">Jun 14, 2026 · 12 min read</span>
+        </div>
+        <h1 style="margin: 0 0 20px; font: 600 clamp(30px, 6vw, 48px)/1.12 var(--sans); letter-spacing: -0.025em;">Raft, explained by building it</h1>
+        <p style="margin: 0; font: 400 20px/1.65 var(--sans); color: var(--muted);">Reading the paper is one thing. Watching your own leader election flap because of a heartbeat bug is another.</p>
+      </header>
+      <div class="prose">
+        <h2 id="why-build-it">Why build it</h2>
+        <p>Raft was designed to be understandable — that's literally the paper's thesis. But "understandable" when reading and "understood" after implementing are different states of knowledge. I built <a href="project-raft-kv.html">Raft KV</a> to close that gap, and these are the notes I wish I'd had at the start.</p>
+        <blockquote>"In Search of an Understandable Consensus Algorithm" — Ongaro &amp; Ousterhout, 2014. The paper is genuinely readable; go read it first.</blockquote>
+        <h2 id="leader-election">Leader election, and the bug that taught me the most</h2>
+        <p>Every node is a follower until it stops hearing heartbeats. Then it becomes a candidate, votes for itself, and asks the cluster for votes. Simple — until your timeouts are too close together and the cluster elects nobody, forever. Randomized election timeouts aren't an optimization; they're the whole trick.</p>
+        <pre><code>// The fix: jitter the election timeout per node.
+// 150–300ms spread means one node usually times out
+// first and wins cleanly.
+timeout := 150*time.Millisecond +
+    time.Duration(rand.Intn(150))*time.Millisecond
+
+select {
+case &lt;-n.heartbeat:
+    // leader is alive, reset timer
+case &lt;-time.After(timeout):
+    n.becomeCandidate()
+}</code></pre>
+        <p>My first implementation used a fixed timeout. Three nodes, three simultaneous candidates, split vote, retry, split vote again. The logs looked like an argument between toddlers. One line of <code class="inline">rand.Intn</code> fixed a bug I'd spent a night on.</p>
+        <h2 id="log-replication">Log replication is a conversation</h2>
+        <p>The leader doesn't push entries blindly — every AppendEntries call carries the index and term of the entry right before the new ones. If the follower doesn't have that entry, it refuses, and the leader walks backwards until they agree. It's a negotiation protocol disguised as replication: find the last point where two histories agree, then overwrite everything after it.</p>
+        <h2 id="what-transfers">What transfers to real work</h2>
+        <p>Every consensus-backed system I touch now — etcd under Kubernetes, DynamoDB's replication, Kafka's controller quorum — maps onto machinery I've debugged myself. That's the return on building from scratch: production incidents become recognition, not archaeology.</p>
+      </div>
+      <div class="chips" style="margin: 40px 0 0; padding-top: 28px; border-top: 1px solid var(--line);">
+        <span class="chip">raft</span>
+        <span class="chip">distributed-systems</span>
+        <span class="chip">go</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-top: 40px;">
+        <span></span>
+        <a class="card" href="post-wire-protocol.html" style="border-radius: 14px; padding: 20px 24px; gap: 6px; text-align: right;">
+          <span style="font: 500 12px var(--mono); color: var(--faint);">next →</span>
+          <span style="font: 600 16px var(--sans); color: var(--ink);">What a wire protocol taught me about API design</span>
+        </a>
+      </div>
+    </article>
+    <aside class="toc">
+      <span class="toc-title">on this page</span>
+      <a href="#why-build-it">Why build it</a>
+      <a href="#leader-election">Leader election</a>
+      <a href="#log-replication">Log replication</a>
+      <a href="#what-transfers">What transfers</a>
+      <div class="related">
+        <span class="toc-title" style="margin-bottom: 0;">related</span>
+        <a href="project-raft-kv.html">Raft KV case study →</a>
+        <a href="post-the-log.html">The log at the heart of every system →</a>
+      </div>
+    </aside>
+  </main>
+  <footer class="site-footer">
+    <span>© 2026 Ibrahim Mohamed</span>
+    <span>$ echo "built from scratch, naturally"</span>
+  </footer>
+</body>
+</html>
