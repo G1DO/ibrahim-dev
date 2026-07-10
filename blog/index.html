@@ -11,28 +11,28 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body style="min-height: 100vh; display: flex; flex-direction: column;">
   <header class="site-nav" id="siteNav">
     <div class="bar">
-      <a class="logo" href="index.html">ibrahim@dev:~$<span class="cursor"></span></a>
+      <a class="logo" href="/">ibrahim@dev:~$<span class="cursor"></span></a>
       <nav class="nav-links" aria-label="Main">
-        <a href="index.html">Home</a>
-        <a href="projects.html">Projects</a>
-        <a href="experience.html">Experience</a>
-        <a href="blog.html" class="active" aria-current="page">Blog</a>
-        <a href="contact.html">Contact</a>
+        <a href="/">Home</a>
+        <a href="/projects/">Projects</a>
+        <a href="/experience/">Experience</a>
+        <a href="/blog/" class="active" aria-current="page">Blog</a>
+        <a href="/contact/">Contact</a>
         <a class="btn-resume" href="Ibrahim.pdf" target="_blank">Resume</a>
       </nav>
       <button class="burger" aria-label="Toggle menu" aria-expanded="false" onclick="var n=document.getElementById('siteNav');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'));this.textContent=n.classList.contains('open')?'\u2715':'\u2630';">☰</button>
     </div>
     <nav class="mobile-menu" aria-label="Mobile">
-      <a href="index.html">Home</a>
-      <a href="projects.html">Projects</a>
-      <a href="experience.html">Experience</a>
-      <a href="blog.html" class="active">Blog</a>
-      <a href="contact.html">Contact</a>
+      <a href="/">Home</a>
+      <a href="/projects/">Projects</a>
+      <a href="/experience/">Experience</a>
+      <a href="/blog/" class="active">Blog</a>
+      <a href="/contact/">Contact</a>
       <a class="btn-resume" href="Ibrahim.pdf" target="_blank">Resume ↓</a>
     </nav>
   </header>
@@ -50,7 +50,7 @@
       </div>
     </div>
     <div id="blogList" style="display: flex; flex-direction: column; gap: 20px;">
-      <a class="card blog-post" href="post-raft-explained.html" data-cat="Paper Notes" data-text="raft, explained by building it reading the raft paper is one thing. watching your own leader election flap because of a heartbeat bug is another. notes from implementing consensus in go, section by section. raft distributed-systems go" style="gap: 12px;">
+      <a class="card blog-post" href="/post-raft-explained/" data-cat="Paper Notes" data-text="raft, explained by building it reading the raft paper is one thing. watching your own leader election flap because of a heartbeat bug is another. notes from implementing consensus in go, section by section. raft distributed-systems go" style="gap: 12px;">
         <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px;">
           <span class="meta">Paper Notes</span>
           <span style="font: 400 13px var(--mono); color: var(--faint);">Jun 14, 2026 · 12 min read</span>
@@ -63,7 +63,7 @@
           <span class="chip">go</span>
         </div>
       </a>
-      <a class="card blog-post" href="post-wire-protocol.html" data-cat="Systems" data-text="what a binary wire protocol taught me about api design when every byte is yours to define, you start seeing rest apis differently. framing, versioning, and backwards compatibility — lessons from building flume's protocol. networking tcp protocols" style="gap: 12px;">
+      <a class="card blog-post" href="/post-wire-protocol/" data-cat="Systems" data-text="what a binary wire protocol taught me about api design when every byte is yours to define, you start seeing rest apis differently. framing, versioning, and backwards compatibility — lessons from building flume's protocol. networking tcp protocols" style="gap: 12px;">
         <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px;">
           <span class="meta">Systems</span>
           <span style="font: 400 13px var(--mono); color: var(--faint);">May 2, 2026 · 8 min read</span>
@@ -76,7 +76,7 @@
           <span class="chip">protocols</span>
         </div>
       </a>
-      <a class="card blog-post" href="post-the-log.html" data-cat="Learning Notes" data-text="learning notes: the log at the heart of every system kafka, raft, write-ahead logs, event sourcing — the same data structure keeps showing up. notes on jay kreps' essay and why the humble append-only log runs the world. kafka storage papers" style="gap: 12px;">
+      <a class="card blog-post" href="/post-the-log/" data-cat="Learning Notes" data-text="learning notes: the log at the heart of every system kafka, raft, write-ahead logs, event sourcing — the same data structure keeps showing up. notes on jay kreps' essay and why the humble append-only log runs the world. kafka storage papers" style="gap: 12px;">
         <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px;">
           <span class="meta">Learning Notes</span>
           <span style="font: 400 13px var(--mono); color: var(--faint);">Apr 11, 2026 · 6 min read</span>
