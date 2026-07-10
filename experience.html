@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experience — Ibrahim Mohamed</title>
+  <meta name="description" content="Software Engineer at Pirates (Ahoy platform). B.Sc. Computer Science, Ain Shams University.">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body style="min-height: 100vh; display: flex; flex-direction: column;">
+  <header class="site-nav" id="siteNav">
+    <div class="bar">
+      <a class="logo" href="index.html">ibrahim@dev:~$<span class="cursor"></span></a>
+      <nav class="nav-links" aria-label="Main">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="experience.html" class="active" aria-current="page">Experience</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html">Contact</a>
+        <a class="btn-resume" href="Ibrahim.pdf" target="_blank">Resume</a>
+      </nav>
+      <button class="burger" aria-label="Toggle menu" aria-expanded="false" onclick="var n=document.getElementById('siteNav');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'));this.textContent=n.classList.contains('open')?'\u2715':'\u2630';">☰</button>
+    </div>
+    <nav class="mobile-menu" aria-label="Mobile">
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="experience.html" class="active">Experience</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn-resume" href="Ibrahim.pdf" target="_blank">Resume ↓</a>
+    </nav>
+  </header>
+  <main class="container">
+    <p class="eyebrow">$ history --work</p>
+    <h1 class="page-title">Experience</h1>
+    <p class="lede">Where I've worked and studied. The full picture is in the <a href="Ibrahim.pdf" target="_blank">resume</a>.</p>
+    <h2 class="label" style="margin-bottom: 28px;">~/experience/work</h2>
+    <div class="split exp-row" style="grid-template-columns: 200px 1fr; gap: clamp(8px, 2.5vw, 32px); padding: 32px 0; border-top: 1px solid var(--line);">
+      <div style="font: 500 14px var(--mono); color: var(--faint);">2025 — now</div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;">
+          <span style="font: 600 26px var(--sans);">Software Engineer</span>
+          <span style="font: 500 16px var(--sans); color: var(--green);">Pirates — Ahoy platform</span>
+        </div>
+        <p style="margin: 0; font: 400 16px/1.7 var(--sans); color: var(--muted); max-width: 620px;">Engineering on Ahoy, Pirates' commerce platform — building and shipping production features across the stack.</p>
+        <div class="chips">
+          <span class="chip">production systems</span>
+          <span class="chip">full-stack</span>
+        </div>
+      </div>
+    </div>
+    <h2 class="label" style="margin: 56px 0 28px;">~/experience/education</h2>
+    <div class="split exp-row" style="grid-template-columns: 200px 1fr; gap: clamp(8px, 2.5vw, 32px); padding: 32px 0; border-top: 1px solid var(--line);">
+      <div style="font: 500 14px var(--mono); color: var(--faint);">graduated</div>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;">
+          <span style="font: 600 26px var(--sans);">B.Sc. Computer Science</span>
+          <span style="font: 500 16px var(--sans); color: var(--green);">Ain Shams University</span>
+        </div>
+        <p style="margin: 0; font: 400 16px/1.7 var(--sans); color: var(--muted); max-width: 620px;">Coursework brought to life in projects: operating systems (<a href="https://github.com/G1DO/fos" target="_blank" rel="noopener">FOS</a>), networking (<a href="https://github.com/G1DO/Data-Communication-Project" target="_blank" rel="noopener">socket programming &amp; CRC</a>), and deep learning (<a href="https://github.com/G1DO/Speaker-Identification" target="_blank" rel="noopener">speaker identification</a>).</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top: 72px; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px 32px; padding: clamp(24px, 4vw, 36px) clamp(24px, 4vw, 40px);">
+      <p style="margin: 0; font: 500 20px/1.5 var(--sans); color: var(--ink);">Want the details — impact, numbers, references?</p>
+      <a class="btn btn-green" href="Ibrahim.pdf" target="_blank" style="font-size: 15px; padding: 13px 26px; white-space: nowrap;">Download resume ↓</a>
+    </div>
+  </main>
+  <style>@media (max-width: 900px) { .exp-row { grid-template-columns: 1fr !important; } }</style>
+  <footer class="site-footer">
+    <span>© 2026 Ibrahim Mohamed</span>
+    <span>$ echo "built from scratch, naturally"</span>
+  </footer>
+</body>
+</html>
