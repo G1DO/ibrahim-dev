@@ -69,7 +69,7 @@
     <div class="container wide" style="padding-top: 0;">
       <div class="section-head">
         <h2 class="label">~/projects — selected</h2>
-        <a class="more" href="/projects/">All 14 projects →</a>
+        <a class="more" href="/projects/">All 15 projects →</a>
       </div>
       <div class="grid3">
         <a class="card" href="/project-api-gateway/">
@@ -78,11 +78,11 @@
           <p>A reverse proxy and traffic-control layer built from first principles — routing, load balancing, health checks, and resilience.</p>
           <span class="cta">Case study →</span>
         </a>
-        <a class="card" href="https://github.com/G1DO/flume" target="_blank" rel="noopener">
-          <span class="meta">go · streaming</span>
-          <h3>Flume</h3>
-          <p>A Kafka-style message broker — binary wire protocol and log-structured storage engine over raw TCP.</p>
-          <span class="cta">GitHub ↗</span>
+        <a class="card" href="/project-container-runtime/">
+          <span class="meta">go · linux</span>
+          <h3>Container Runtime</h3>
+          <p>A Linux container runtime built from raw syscalls in Go — namespaces, cgroups v2, pivot_root, and netlink, with zero dependencies.</p>
+          <span class="cta">Case study →</span>
         </a>
         <a class="card" href="/project-storage-engine/">
           <span class="meta">rust · storage</span>
@@ -96,6 +96,9 @@
       <div>
         <h2 class="label">~/blog — latest</h2>
         <div style="display: flex; flex-direction: column;">
+          <a href="/post-container-runtime/" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding: 18px 0; border-top: 1px solid var(--line); color: inherit;">
+            <span style="font: 500 18px var(--sans);">Building a container runtime from raw syscalls in Go</span>
+          </a>
           <a href="/post-storage-engine/" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding: 18px 0; border-top: 1px solid var(--line); color: inherit;">
             <span style="font: 500 18px var(--sans);">Building an LSM-tree storage engine in Rust</span>
           </a>
