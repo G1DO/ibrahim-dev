@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Raft KV — Case Study — Ibrahim Mohamed</title>
-  <meta name="description" content="Building Raft consensus from scratch in Go: leader election, log replication, snapshots, linearizable reads.">
+  <meta name="description" content="Building Raft consensus from scratch in Go: leader election, log replication, snapshots, InstallSnapshot, and ReadIndex linearizable reads — no consensus library, with measured election and throughput benchmarks.">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -61,27 +61,42 @@
       <div>
         <h2 class="label" style="font-size: 15px;">What I built</h2>
         <div class="bullet-list">
-          <span class="b">Leader election with randomized timeouts, straight from the paper</span>
-          <span class="b">Log replication with consistency checks and conflict resolution</span>
-          <span class="b">Snapshots so restarting nodes don't replay the whole log</span>
-          <span class="b">Linearizable reads — reads reflect all committed writes</span>
-          <span class="b">Dynamic cluster membership — add and remove nodes live</span>
+          <span class="b">Leader election — randomized 150–300&nbsp;ms timeouts, per-term self-vote, majority counting, and step-down the moment a higher term is seen</span>
+          <span class="b">Log replication — <code class="inline">AppendEntries</code> with <code class="inline">prevLogIndex/prevLogTerm</code> consistency checks, conflict truncation, and per-follower <code class="inline">nextIndex</code> back-off</span>
+          <span class="b">Safety — commits only entries from the current term, and plants a no-op barrier on election so prior-term writes commit correctly instead of silently disappearing</span>
+          <span class="b">Persistence and recovery — a write-ahead log plus atomically written snapshots (temp file + rename), with an <code class="inline">InstallSnapshot</code> RPC to catch up a follower that has fallen behind the log</span>
+          <span class="b">Linearizable reads via the <code class="inline">ReadIndex</code> protocol — the leader re-confirms it still holds a majority before serving, so a partitioned stale leader returns <code class="inline">NOT_LEADER</code> rather than a stale value</span>
+          <span class="b">Dynamic single-server membership — add and remove nodes on a live cluster, replayed correctly across restarts</span>
         </div>
       </div>
       <div>
         <h2 class="label" style="font-size: 15px;">Engineering decisions</h2>
         <p>The hardest part wasn't the happy path — it was the edges: a stale leader that doesn't know it's stale, a follower whose log diverged during a partition, election storms when timeouts are too tight. Key choices:</p>
         <div class="card" style="border-radius: 16px; padding: 28px;">
-          <span style="font: 400 16px/1.65 var(--sans); color: var(--body);"><strong style="color: var(--ink);">No consensus libraries.</strong> The point was understanding — using etcd's raft package would defeat it.</span>
-          <span style="font: 400 16px/1.65 var(--sans); color: var(--body);"><strong style="color: var(--ink);">State machine as a pure function.</strong> Applying log entries is deterministic and side-effect free, which makes replay and snapshots trivial to reason about.</span>
-          <span style="font: 400 16px/1.65 var(--sans); color: var(--body);"><strong style="color: var(--ink);">Chaos-style testing.</strong> Tests kill leaders mid-replication and partition nodes randomly — most bugs only appear under induced failure.</span>
+          <span style="font: 400 16px/1.65 var(--sans); color: var(--body);"><strong style="color: var(--ink);">No consensus libraries.</strong> The consensus core, WAL, snapshots, and RPC transport are all standard library — no <code class="inline">hashicorp/raft</code>, no <code class="inline">etcd/raft</code>. The only third-party import is OpenTelemetry, and only at the server edge for optional tracing. Using someone else's Raft would have defeated the point.</span>
+          <span style="font: 400 16px/1.65 var(--sans); color: var(--body);"><strong style="color: var(--ink);">Hand-rolled RPC transport.</strong> <code class="inline">RequestVote</code>, <code class="inline">AppendEntries</code>, and <code class="inline">InstallSnapshot</code> ride as JSON over plain TCP, dispatched by message type — so the wire format stays legible instead of vanishing into a framework.</span>
+          <span style="font: 400 16px/1.65 var(--sans); color: var(--body);"><strong style="color: var(--ink);">State machine as a pure function.</strong> Applying a log entry is deterministic and side-effect free, which makes replay, snapshots, and per-client dedup easy to reason about.</span>
+          <span style="font: 400 16px/1.65 var(--sans); color: var(--body);"><strong style="color: var(--ink);">Heartbeat-driven replication.</strong> A deliberate simplicity choice with a known cost — writes wait up to one 50&nbsp;ms heartbeat — so I benchmarked exactly what that trade-off buys and what it costs.</span>
         </div>
       </div>
       <div>
-        <h2 class="label" style="font-size: 15px;">What it taught me</h2>
-        <p>Distributed systems fail in ways sequential code never prepares you for. Building Raft gave me a working mental model for every consensus-backed system I touch now — and it's the foundation the rest of my systems work (like <a href="https://github.com/G1DO/flume" target="_blank" rel="noopener">Flume</a>) builds on.</p>
+        <h2 class="label" style="font-size: 15px;">Measured, not asserted</h2>
+        <p>Rather than claim it &ldquo;works,&rdquo; I built a benchmark harness that boots a real 3-node cluster as child processes, then kills leaders and partitions nodes to measure recovery from the client's point of view:</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 24px; border: 1px solid var(--line); border-radius: 16px; padding: 24px 28px;">
+          <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font: 600 26px var(--sans); letter-spacing: -0.02em;">244&nbsp;ms</span><span style="font: 400 13px var(--sans); color: var(--muted);">election recovery, p50 (p99 342&nbsp;ms, 100 trials)</span></div>
+          <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font: 600 26px var(--sans); letter-spacing: -0.02em;">~144/s</span><span style="font: 400 13px var(--sans); color: var(--muted);">peak write throughput, 8 concurrent clients</span></div>
+          <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font: 600 26px var(--sans); letter-spacing: -0.02em;">~51&nbsp;ms</span><span style="font: 400 13px var(--sans); color: var(--muted);">recovery after quorum restored post-partition</span></div>
+          <div style="display: flex; flex-direction: column; gap: 6px;"><span style="font: 600 26px var(--sans); letter-spacing: -0.02em;">84</span><span style="font: 400 13px var(--sans); color: var(--muted);">passing tests across the consensus core</span></div>
+        </div>
+        <p style="font: 400 14px/1.6 var(--sans); color: var(--faint); margin-top: 12px;">Single-machine loopback numbers, self-reported from the harness in <code class="inline">docs/benchmarks.md</code>. The 50&nbsp;ms latency floor and the throughput cliff past 8 clients are both direct, expected consequences of heartbeat-batched writes under a single lock — the benchmark exists to make those trade-offs visible, not to hide them.</p>
+      </div>
+      <div>
+        <h2 class="label" style="font-size: 15px;">Where it stands, honestly</h2>
+        <p>The consensus core is real and tested — election, replication, current-term safety, WAL persistence and crash recovery, snapshots with <code class="inline">InstallSnapshot</code>, <code class="inline">ReadIndex</code> reads, and single-server membership all work end-to-end and are exercised by 84 passing tests plus the cluster-spinning benchmark harness. The limits are deliberate and documented in ADRs: single-server (not joint-consensus) membership, no pre-vote or leader leases, and no batching or pipelining of replication — each traded away in favor of a codebase you can actually read against the paper. Around that core sits a larger cloud-native ops layer (Docker, a Helm chart, GitOps, signed images); that scaffolding is built but is a portfolio milestone, not a hardened production datastore.</p>
+        <p>Distributed systems fail in ways sequential code never prepares you for — a leader that doesn't yet know it's been deposed, a log that diverged during a partition. Building Raft by hand gave me a working mental model for every consensus-backed system I touch now, and the discipline to measure recovery instead of assuming it.</p>
       </div>
     </div>
+    <a class="card" href="https://raft.github.io/raft.pdf" target="_blank" rel="noopener" style="max-width: 760px; margin-top: 56px; border-radius: 16px; padding: 24px 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; justify-content: space-between;"><span style="display: flex; flex-direction: column; gap: 4px;"><span style="font: 500 12px var(--mono); color: var(--faint); text-transform: uppercase; letter-spacing: 0.1em;">the paper</span><span style="font: 600 17px var(--sans); color: var(--ink);">In Search of an Understandable Consensus Algorithm</span><span style="font: 400 14px var(--sans); color: var(--muted);">Diego Ongaro &amp; John Ousterhout · USENIX ATC 2014 (Best Paper) · the Raft paper this project implements</span></span><span style="font: 500 14px var(--mono); color: var(--green); white-space: nowrap;">Read PDF ↗</span></a>
     <div style="margin-top: 72px; border-top: 1px solid var(--line); padding-top: 32px; display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; align-items: center;">
       <a href="/projects/" style="font: 500 15px var(--sans); color: var(--muted);">← All projects</a>
       <a href="https://github.com/G1DO/flume" target="_blank" rel="noopener" style="font: 500 15px var(--sans);">Next: Flume →</a>
