@@ -69,7 +69,7 @@
     <div class="container wide" style="padding-top: 0;">
       <div class="section-head">
         <h2 class="label">~/projects — selected</h2>
-        <a class="more" href="/projects/">All 13 projects →</a>
+        <a class="more" href="/projects/">All 14 projects →</a>
       </div>
       <div class="grid3">
         <a class="card" href="/project-api-gateway/">
@@ -84,11 +84,11 @@
           <p>A Kafka-style message broker — binary wire protocol and log-structured storage engine over raw TCP.</p>
           <span class="cta">GitHub ↗</span>
         </a>
-        <a class="card" href="https://github.com/G1DO/Quizify" target="_blank" rel="noopener">
-          <span class="meta">python · aws</span>
-          <h3>Quizify</h3>
-          <p>Serverless AI exam-question generator — Lambda, DynamoDB, CloudFront, deployed with Terraform.</p>
-          <span class="cta">GitHub ↗</span>
+        <a class="card" href="/project-storage-engine/">
+          <span class="meta">rust · storage</span>
+          <h3>Storage Engine</h3>
+          <p>An LSM-tree key-value store built from scratch in Rust — memtables, WAL, SSTables, bloom filters, and compaction.</p>
+          <span class="cta">Case study →</span>
         </a>
       </div>
     </div>
@@ -96,6 +96,10 @@
       <div>
         <h2 class="label">~/blog — latest</h2>
         <div style="display: flex; flex-direction: column;">
+          <a href="/post-storage-engine/" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding: 18px 0; border-top: 1px solid var(--line); color: inherit;">
+            <span style="font: 500 18px var(--sans);">Building an LSM-tree storage engine in Rust</span>
+            <span style="font: 400 13px var(--mono); color: var(--faint);">10 min</span>
+          </a>
           <a href="/post-api-gateway/" style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding: 18px 0; border-top: 1px solid var(--line); color: inherit;">
             <span style="font: 500 18px var(--sans);">Building an API gateway from scratch in Go</span>
             <span style="font: 400 13px var(--mono); color: var(--faint);">9 min</span>

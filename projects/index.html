@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projects — Ibrahim Mohamed</title>
-  <meta name="description" content="Distributed systems, streaming, serverless, games — 12 projects built from scratch.">
+  <meta name="description" content="Distributed systems, streaming, storage engines, serverless, games — 14 projects built from scratch.">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -82,6 +82,20 @@
           <span class="b" style="display: flex; gap: 10px; font: 400 15px/1.55 var(--sans); color: var(--body);"><span style="color: var(--green); font-family: var(--mono);">▸</span>Hand-rolled binary wire protocol over raw TCP</span>
           <span class="b" style="display: flex; gap: 10px; font: 400 15px/1.55 var(--sans); color: var(--body);"><span style="color: var(--green); font-family: var(--mono);">▸</span>Log-structured storage engine</span>
           <span class="b" style="display: flex; gap: 10px; font: 400 15px/1.55 var(--sans); color: var(--body);"><span style="color: var(--green); font-family: var(--mono);">▸</span>Every component hand-implemented, zero frameworks</span>
+        </div>
+      </a>
+      <a class="card split feature" href="/project-storage-engine/" style="padding: clamp(24px, 4vw, 40px); border-radius: 20px;">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <span class="meta">rust · storage engines · databases</span>
+          <span style="font: 600 32px var(--sans); letter-spacing: -0.02em; color: var(--ink);">Storage Engine</span>
+          <span style="font: 400 16px/1.7 var(--sans); color: var(--muted);">A persistent LSM-tree key-value store built from scratch in Rust — the design behind LevelDB, RocksDB, and Cassandra, rebuilt with almost no external dependencies.</span>
+          <span style="font: 500 15px var(--sans); color: var(--green); margin-top: 6px;">Read the case study →</span>
+        </div>
+        <div class="side" style="display: flex; flex-direction: column; gap: 14px; justify-content: center; border-color: var(--line2); padding-left: 40px;">
+          <span style="font: 500 12px var(--mono); color: var(--faint); text-transform: uppercase; letter-spacing: 0.1em;">engineering highlights</span>
+          <span class="b" style="display: flex; gap: 10px; font: 400 15px/1.55 var(--sans); color: var(--body);"><span style="color: var(--green); font-family: var(--mono);">▸</span>Hand-written skip-list memtable and a checksummed write-ahead log with tunable sync policies</span>
+          <span class="b" style="display: flex; gap: 10px; font: 400 15px/1.55 var(--sans); color: var(--body);"><span style="color: var(--green); font-family: var(--mono);">▸</span>Block-based SSTables with per-file bloom filters and leveled + size-tiered compaction</span>
+          <span class="b" style="display: flex; gap: 10px; font: 400 15px/1.55 var(--sans); color: var(--body);"><span style="color: var(--green); font-family: var(--mono);">▸</span>Crash-safe recovery, point-in-time snapshots, and 269 tests behind CI</span>
         </div>
       </a>
       <a class="card split feature" href="https://github.com/G1DO/Quizify" target="_blank" rel="noopener" style="padding: clamp(24px, 4vw, 40px); border-radius: 20px;">
