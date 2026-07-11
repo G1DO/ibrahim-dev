@@ -121,6 +121,6 @@ a.card:hover { border-color: var(--green); box-shadow: var(--shadow-hover); tran
 
 /* ---------- misc ---------- */
 .bullet-list { display: flex; flex-direction: column; gap: 14px; }
-.bullet-list .b { display: flex; gap: 12px; font: 400 17px/1.7 var(--sans); color: var(--body); }
-.bullet-list .b::before { content: "▸"; color: var(--green); font-family: var(--mono); }
+.bullet-list .b { position: relative; padding-left: 24px; font: 400 17px/1.7 var(--sans); color: var(--body); }
+.bullet-list .b::before { content: "▸"; position: absolute; left: 0; top: 0; color: var(--green); font-family: var(--mono); }
 :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }

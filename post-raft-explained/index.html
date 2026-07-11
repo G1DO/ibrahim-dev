@@ -68,9 +68,16 @@ case &lt;-time.After(timeout):
         <p>My first implementation used a fixed timeout. Three nodes, three simultaneous candidates, split vote, retry, split vote again. The logs looked like an argument between toddlers. One line of <code class="inline">rand.Intn</code> fixed a bug I'd spent a night on.</p>
         <h2 id="log-replication">Log replication is a conversation</h2>
         <p>The leader doesn't push entries blindly — every AppendEntries call carries the index and term of the entry right before the new ones. If the follower doesn't have that entry, it refuses, and the leader walks backwards until they agree. It's a negotiation protocol disguised as replication: find the last point where two histories agree, then overwrite everything after it.</p>
+        <h2 id="safety">The subtle part: only commit your own term</h2>
+        <p>Here's the bug you won't hit in a demo but will hit in production. A freshly elected leader must <em>not</em> treat an old entry as committed just because it's replicated on a majority — that reasoning is exactly the hole Raft's safety proof closes. A leader may only commit entries from its <em>current</em> term, and to carry the older ones across the line it appends a no-op entry the instant it wins. Leave that out and a value that looked committed can quietly disappear after a leader change. It's a handful of lines guarding the one invariant the whole system rests on, and it took me writing a test that kills the leader at exactly the wrong moment to believe I needed it.</p>
+        <h2 id="reads">Reads are the hard part, not writes</h2>
+        <p>Writes are the easy case — they go through the log, so the log's rules protect them. Reads are where linearizability quietly breaks: a node that still believes it's leader after a partition will happily hand you a stale value. My reads use the ReadIndex protocol — before answering, the leader confirms it still commands a majority; if it can't, it returns <code class="inline">NOT_LEADER</code> instead of lying. A read that refuses to answer is more correct than a fast wrong one.</p>
+        <h2 id="measured">Measure it, don't trust it</h2>
+        <p>Claiming Raft &ldquo;works&rdquo; is cheap. So I wrote a harness that boots a real three-node cluster, kills the leader mid-run, and times how long until the next write commits: p50 around <strong>244&nbsp;ms</strong> — one election timeout plus a round trip, exactly what the paper predicts. It also surfaced the ugly parts. Writes bottom out at a ~50&nbsp;ms latency floor because replication is heartbeat-driven, and throughput falls off a cliff past eight concurrent clients thanks to a single global lock and a synchronous fsync per entry. Those aren't failures to bury — they're the next things to fix, and now I can point at the number instead of guessing.</p>
         <h2 id="what-transfers">What transfers to real work</h2>
         <p>Every consensus-backed system I touch now — etcd under Kubernetes, DynamoDB's replication, Kafka's controller quorum — maps onto machinery I've debugged myself. That's the return on building from scratch: production incidents become recognition, not archaeology.</p>
       </div>
+      <a class="card" href="https://raft.github.io/raft.pdf" target="_blank" rel="noopener" style="margin: 40px 0 0; border-radius: 16px; padding: 24px 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; justify-content: space-between;"><span style="display: flex; flex-direction: column; gap: 4px;"><span style="font: 500 12px var(--mono); color: var(--faint); text-transform: uppercase; letter-spacing: 0.1em;">the paper</span><span style="font: 600 17px var(--sans); color: var(--ink);">In Search of an Understandable Consensus Algorithm</span><span style="font: 400 14px var(--sans); color: var(--muted);">Diego Ongaro &amp; John Ousterhout · USENIX ATC 2014 (Best Paper) · the one to read first</span></span><span style="font: 500 14px var(--mono); color: var(--green); white-space: nowrap;">Read PDF ↗</span></a>
       <div class="chips" style="margin: 40px 0 0; padding-top: 28px; border-top: 1px solid var(--line);">
         <span class="chip">raft</span>
         <span class="chip">distributed-systems</span>
@@ -89,6 +96,9 @@ case &lt;-time.After(timeout):
       <a href="#why-build-it">Why build it</a>
       <a href="#leader-election">Leader election</a>
       <a href="#log-replication">Log replication</a>
+      <a href="#safety">Only commit your own term</a>
+      <a href="#reads">Reads are the hard part</a>
+      <a href="#measured">Measure it, don't trust it</a>
       <a href="#what-transfers">What transfers</a>
       <div class="related">
         <span class="toc-title" style="margin-bottom: 0;">related</span>
