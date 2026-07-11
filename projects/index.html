@@ -42,6 +42,20 @@
     <p class="lede">Most of these exist because I wanted to know how something worked — so I built it. Flagship work first, everything else below.</p>
     <h2 class="label">~/projects/flagship</h2>
     <div style="display: flex; flex-direction: column; gap: 24px; margin-bottom: 72px;">
+      <a class="card split feature" href="/project-api-gateway/" style="padding: clamp(24px, 4vw, 40px); border-radius: 20px;">
+        <div style="display: flex; flex-direction: column; gap: 14px;">
+          <span class="meta">go · networking · reliability</span>
+          <span style="font: 600 32px var(--sans); letter-spacing: -0.02em; color: var(--ink);">API Gateway</span>
+          <span style="font: 400 16px/1.7 var(--sans); color: var(--muted);">A production-minded API gateway built from scratch in Go: reverse proxying, traffic control, backend selection, failure isolation, routing, and observability.</span>
+          <span style="font: 500 15px var(--sans); color: var(--green); margin-top: 6px;">Read the case study →</span>
+        </div>
+        <div class="side" style="display: flex; flex-direction: column; gap: 14px; justify-content: center; border-color: var(--line2); padding-left: 40px;">
+          <span style="font: 500 12px var(--mono); color: var(--faint); text-transform: uppercase; letter-spacing: 0.1em;">engineering highlights</span>
+          <span class="b" style="display: flex; gap: 10px; font: 400 15px/1.55 var(--sans); color: var(--body);"><span style="color: var(--green); font-family: var(--mono);">▸</span>Four load-balancing strategies, including smooth weighted round robin and consistent hashing</span>
+          <span class="b" style="display: flex; gap: 10px; font: 400 15px/1.55 var(--sans); color: var(--body);"><span style="color: var(--green); font-family: var(--mono);">▸</span>Active and passive health checks with per-backend circuit breakers</span>
+          <span class="b" style="display: flex; gap: 10px; font: 400 15px/1.55 var(--sans); color: var(--body);"><span style="color: var(--green); font-family: var(--mono);">▸</span>Rate limiting, hot-reloadable routing, metrics, logs, traces, and graceful shutdown</span>
+        </div>
+      </a>
       <a class="card split feature" href="/project-raft-kv/" style="padding: clamp(24px, 4vw, 40px); border-radius: 20px;">
         <div style="display: flex; flex-direction: column; gap: 14px;">
           <span class="meta">go · distributed systems · consensus</span>
